@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prepare": "husky install"
+    "prepare": "husky",
+    "commit": "git-cz"
   },
   "dependencies": {
     "husky": "^9.1.1",
@@ -21,6 +22,8 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "commitizen": "^4.3.0",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
     "lint-staged": "^15.2.7",
@@ -34,7 +37,12 @@
       "applypatch-msg": "echo \"[Husky] applypatch-msg\"",
       "pre-applypatch": "echo \"[Husky] pre-applypatch\"",
       "post-applypatch": "echo \"[Husky] post-applypatch\"",
-      "pre-commit": "pnpm run lint && git add -A ."
+      "pre-commit": "lint && git add -A ."
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
     }
   }
 }
