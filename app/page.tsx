@@ -1,10 +1,11 @@
-import Image from "next/image";
 import Logo from "./ui/logo";
+import Form from "./ui/forms/login";
 
 export default function Home() {
   return (
-    <div className="flex justify-center items-center w-screen h-screen">
+    <div className="flex flex-col justify-center items-center w-screen h-screen">
       <Logo />
+      <Form />
     </div>
   );
 }
