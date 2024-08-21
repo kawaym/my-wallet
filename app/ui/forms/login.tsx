@@ -1,17 +1,21 @@
 "use client";
 
+import { useActionState } from "react";
+
+import { authenticate } from "@/app/lib/actions";
 import Auxiliary from "../auxiliary-button";
 import Input from "../form-text-input";
 import Submit from "../submit-button";
 
 export default function Form() {
-  function printa() {
-    console.log("printa");
-  }
+  const [errorMessage, formAction, isPending] = useActionState(
+    authenticate,
+    undefined
+  );
   return (
     <form
       className="flex flex-col items-center justify-center gap-2 w-4/5"
-      action={printa}
+      action={formAction}
     >
       <Input placeholder="E-mail" type="email" />
       <Input placeholder="Senha" type="password" />
