@@ -18,14 +18,14 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 :root {
-  --foreground-rgb: 0, 0, 0;
+  --foreground-rgb: 255, 255, 255;
   --background-start-rgb: 140, 17, 190;
   --background-end-rgb: 140, 17, 190;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground-rgb: 0, 0, 0;
+    --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 140, 17, 190;
     --background-end-rgb: 140, 17, 190;
   }
