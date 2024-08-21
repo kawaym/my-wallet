@@ -1,10 +1,12 @@
 "use client";
 
-export default function Submit({ text }: { text: string }) {
+import { CustomButtonProps } from "../lib/types";
+
+export default function Submit({ text, type, className }: CustomButtonProps) {
   return (
     <button
-      type="submit"
-      className="bg-buttonColor w-full h-12 rounded-md font-bold text-white"
+      type={type}
+      className={`bg-buttonColor w-full h-12 rounded-md font-bold text-white ${className}`}
     >
       {text}
     </button>
