@@ -18,8 +18,18 @@ export default function Form() {
       action={formAction}
       id="login-form"
     >
-      <Input placeholder="E-mail" type="email" formId="login-form" />
-      <Input placeholder="Senha" type="password" formId="login-form" />
+      <Input
+        placeholder="E-mail"
+        type="email"
+        formId="login-form"
+        name="email"
+      />
+      <Input
+        placeholder="Senha"
+        type="password"
+        formId="login-form"
+        name="password"
+      />
       <Submit text="Entrar" type="submit" />
       <Auxiliary text="Primeira vez? Cadastre-se!" type="button" />
     </form>

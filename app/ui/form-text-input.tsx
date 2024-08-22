@@ -5,14 +5,17 @@ export default function Input(
     type,
     placeholder,
     formId,
+    name,
   }: {
     type?: HTMLInputTypeAttribute;
     placeholder?: string;
     formId?: string;
+    name?: string;
   } = {
     type: "text",
     placeholder: "Insira texto aqui",
     formId: "",
+    name: "",
   }
 ) {
   return (
@@ -21,6 +24,7 @@ export default function Input(
       placeholder={placeholder}
       className="placeholder:text-black w-full h-12 rounded-md pl-3 "
       form={formId}
+      name={name}
     ></input>
   );
 }
