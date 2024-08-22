@@ -1,5 +1,3 @@
-"use client";
-
 import { CustomButtonProps } from "../lib/types";
 
 export default function Auxiliary({
