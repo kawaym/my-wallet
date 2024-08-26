@@ -67,7 +67,7 @@ export async function createUser(prevState: State, formData: FormData) {
   }
 
   revalidatePath("/login");
-  redirect("login");
+  redirect("/login");
 }
 
 export async function authenticate(
