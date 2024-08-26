@@ -6,6 +6,7 @@ const client = await pool.connect();
 
 async function dropTables() {
   await client.query(`DROP TABLE users;`);
+  await client.query(`DROP TABLE transactions;`);
 }
 
 export async function GET() {
