@@ -1,5 +1,5 @@
-import { pool } from "./db";
-import { users } from "../lib/placeholder-data";
+import { pool } from "../db";
+import { users } from "../../lib/placeholder-data";
 import bcrypt from "bcrypt";
 
 const client = await pool.connect();
@@ -39,7 +39,7 @@ export async function GET() {
     await seedUser();
     await client.query("COMMIT");
 
-    return Response.json({ message: "Database seeded succesfully" });
+    return Response.json({ message: "Database seeded successfully" });
   } catch (error) {
     await client.query("ROLLBACK");
     console.log(error);
