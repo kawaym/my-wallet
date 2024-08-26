@@ -20,7 +20,11 @@ export default function Form() {
       <Input placeholder="Senha" type="password" />
       <Input placeholder="Confirme a senha" type="password" />
       <Submit text="Cadastrar" type="submit" />
-      <Auxiliary text="Já tem uma conta? Entre agora!" type="button" />
+      <Auxiliary
+        text="Já tem uma conta? Entre agora!"
+        type="button"
+        link="login"
+      />
     </form>
   );
 }

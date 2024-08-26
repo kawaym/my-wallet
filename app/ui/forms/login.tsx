@@ -31,7 +31,11 @@ export default function Form() {
         name="password"
       />
       <Submit text="Entrar" type="submit" />
-      <Auxiliary text="Primeira vez? Cadastre-se!" type="button" />
+      <Auxiliary
+        text="Primeira vez? Cadastre-se!"
+        type="button"
+        link="/signup"
+      />
     </form>
   );
 }
