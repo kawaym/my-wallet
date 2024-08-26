@@ -22,7 +22,7 @@ export default function Input(
     <input
       type={type}
       placeholder={placeholder}
-      className="placeholder:text-black w-full h-12 rounded-md pl-3 "
+      className="placeholder:text-black w-full h-12 rounded-md pl-3 text-black"
       form={formId}
       name={name}
     ></input>

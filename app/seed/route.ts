@@ -11,19 +11,21 @@ async function seedUser() {
         id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
         email TEXT NOT NULL UNIQUE,
-        password TEXT NOT NULL
+        password TEXT NOT NULL,
+        date DATE NOT NULL
     );  
   `);
 
   const insertedUsers = await Promise.all(
     users.map(async (user) => {
       const hashedPassword = await bcrypt.hash(user.password, 10);
+
+      const date = new Date().toISOString().split("T")[0];
       const query = `
-            INSERT INTO users (id, name, email, password)
-            VALUES ('${user.id}', '${user.name}', '${user.email}', '${hashedPassword}')
+            INSERT INTO users (id, name, email, password, date)
+            VALUES ('${user.id}', '${user.name}', '${user.email}', '${hashedPassword}', '${date}')
             ON CONFLICT (id) DO NOTHING;      
         `;
-      console.log(query);
       return client.query(query);
     })
   );
