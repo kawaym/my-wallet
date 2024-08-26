@@ -15,6 +15,11 @@ const config: Config = {
       },
       colors: {
         buttonColor: "rgba(163,40,214,1)",
+        secondaryText: "rgba(134, 134, 134, 1)",
+      },
+      spacing: {
+        "1/10": "10%",
+        "9/20": "45%",
       },
     },
   },

@@ -15,7 +15,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body className={`${raleway.className} antialiased`}>{children}</body>
+      <body className={`${raleway.className} antialiased w-screen h-screen`}>
+        {children}
+      </body>
     </html>
   );
 }
