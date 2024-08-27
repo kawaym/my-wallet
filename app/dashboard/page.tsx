@@ -1,18 +1,33 @@
+"use client";
+
 import { signOut } from "@/auth";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { FiPlusCircle, FiMinusCircle } from "react-icons/fi";
+import { fetchTransactions } from "../lib/data";
+
+import { useEffect } from "react";
 
 export default function Page() {
+  async function fetch() {
+    const transactions = await fetchTransactions();
+    console.log(transactions);
+    return transactions;
+  }
+
+  useEffect(() => {
+    fetch();
+  }, []);
+
   return (
     <div className="flex flex-col w-full h-full p-6 gap-4">
       <header className="flex w-full justify-between">
         <p className="font-bold text-3xl">Olá, Fulano</p>
         <form
-          action={async () => {
-            "use server";
+        // action={async () => {
+        //   "use server";
 
-            await signOut();
-          }}
+        //   await signOut();
+        // }}
         >
           <button className="font-bold text-3xl h-full">
             <RiLogoutBoxRLine />

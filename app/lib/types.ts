@@ -13,3 +13,13 @@ export type User = {
   email: string;
   password: string;
 };
+
+export type Transaction = {
+  id: string;
+  name: string;
+  description: string;
+  type: "credit" | "debit";
+  amount: number;
+  date: Date;
+  userId: string;
+};
