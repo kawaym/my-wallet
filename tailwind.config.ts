@@ -16,8 +16,8 @@ const config: Config = {
       colors: {
         buttonColor: "rgba(163,40,214,1)",
         secondaryText: "rgba(134, 134, 134, 1)",
-        credit: "rgba(3, 172, 0, 1)",
-        debit: "rgba(199,0,0,1)",
+        positiveValue: "rgba(3, 172, 0, 1)",
+        negativeValue: "rgba(199,0,0,1)",
       },
       spacing: {
         "1/10": "10%",

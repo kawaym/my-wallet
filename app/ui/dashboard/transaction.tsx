@@ -1,14 +1,12 @@
 import type { Transaction } from "@/app/lib/types";
+import { convertCentsToReal } from "@/app/lib/utils";
 
 export default function Transaction({
   transaction,
 }: {
   transaction: Transaction;
 }) {
-  const fixedAmount = (transaction.amount / 100).toLocaleString("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-  });
+  const fixedAmount = convertCentsToReal(transaction.amount);
 
   const fixedDate = transaction.date.toLocaleDateString("pt-BR", {
     month: "numeric",
@@ -16,11 +14,11 @@ export default function Transaction({
   });
 
   return (
-    <div className="flex w-full px-3">
+    <div className="flex w-full">
       <div className="mr-3">{fixedDate}</div>
       <div className="text-black">{transaction.name}</div>
       <div
-        className={`ml-auto ${transaction.type === "debit" ? "text-debit" : "text-credit"}`}
+        className={`ml-auto ${transaction.type === "debit" ? "text-negativeValue" : "text-positiveValue"}`}
       >
         {fixedAmount}
       </div>
