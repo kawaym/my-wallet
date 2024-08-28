@@ -1,23 +1,10 @@
-"use client";
-
 import { signOut } from "@/auth";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { FiPlusCircle, FiMinusCircle } from "react-icons/fi";
-import { fetchTransactions } from "../lib/data";
 
-import { useEffect } from "react";
+import History from "../ui/dashboard/transactions-history";
 
 export default function Page() {
-  async function fetch() {
-    const transactions = await fetchTransactions();
-    console.log(transactions);
-    return transactions;
-  }
-
-  useEffect(() => {
-    fetch();
-  }, []);
-
   return (
     <div className="flex flex-col w-full h-full p-6 gap-4">
       <header className="flex w-full justify-between">
@@ -34,9 +21,7 @@ export default function Page() {
           </button>
         </form>
       </header>
-      <main className="w-full h-full flex items-center justify-center bg-white text-secondaryText rounded-md">
-        Não há registros de entrada ou saída
-      </main>
+      <History />
       <footer className="w-full h-1/6 flex justify-between gap-2">
         <button className="bg-buttonColor w-9/20 font-bold flex flex-col p-3 justify-between text-wrap rounded-md items-start">
           <FiPlusCircle className="text-2xl font-bold" />
