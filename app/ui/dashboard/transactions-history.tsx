@@ -28,7 +28,7 @@ export default function History() {
   };
 
   const placeholderDebitTransaction: type = {
-    id: "test",
+    id: "test1",
     name: "Almoço mãe",
     description: "asas",
     type: "debit",
@@ -42,13 +42,31 @@ export default function History() {
     placeholderDebitTransaction,
   ];
 
-  const balance = convertCentsToReal(
-    placeholderTransactions
-      .map((data) => data.amount)
-      .reduce((previous, current) => {
-        return previous + current;
-      })
-  );
+  const balance = placeholderTransactions
+    .map((data) => {
+      return { amount: data.amount, type: data.type };
+    })
+    .reduce((previous, current) => {
+      let amount = previous.amount + current.amount;
+      let type: "credit" | "debit" = "credit";
+      if (previous.type === "credit" && current.type === "debit") {
+        amount = previous.amount - current.amount;
+      }
+      if (previous.type === "debit" && current.type === "credit") {
+        amount = current.amount - previous.amount;
+      }
+      if (previous.type === "debit" && current.type === "debit") {
+        amount = 0 - current.amount - previous.amount;
+      }
+      if (amount < 0) {
+        type = "debit";
+        amount = Math.abs(amount);
+      }
+      return { type, amount };
+    });
+
+  const { type: balanceType } = balance;
+  const balanceAmount = convertCentsToReal(balance.amount);
 
   return (
     <main className="w-full h-full flex flex-col gap-2 items-center bg-white text-secondaryText rounded-md px-3 py-5 relative">
@@ -59,7 +77,11 @@ export default function History() {
 
       <div className="flex justify-between w-full absolute bottom-5 px-3">
         <p className="text-black font-bold text-xl">SALDO</p>
-        <p className="text-positiveValue text-xl">{balance}</p>
+        <p
+          className={`${balanceType === "debit" ? "text-negativeValue" : "text-positiveValue"} text-xl`}
+        >
+          {balanceAmount}
+        </p>
       </div>
     </main>
   );
