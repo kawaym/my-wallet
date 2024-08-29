@@ -8,7 +8,7 @@ export async function fetchTransactions() {
   try {
     console.log("Fetching transactions...");
 
-    const data = await pool.query<Transaction[]>("SELECT * FROM transactions");
+    const data = await pool.query<Transaction>("SELECT * FROM transactions");
 
     return data.rows;
   } catch (e) {

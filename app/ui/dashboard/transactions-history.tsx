@@ -4,74 +4,57 @@ import { fetchTransactions } from "@/app/lib/data";
 import Transaction from "./transaction";
 import type { Transaction as type } from "@/app/lib/types";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { convertCentsToReal } from "@/app/lib/utils";
 
 export default function History() {
-  async function fetch() {
-    const transactions = await fetchTransactions();
-    return transactions;
-  }
+  const [transactions, setTransactions] = useState<type[]>([]);
 
   useEffect(() => {
+    async function fetch() {
+      const transactions = await fetchTransactions();
+      setTransactions(transactions);
+    }
     fetch();
   }, []);
 
-  const placeholderCreditTransaction: type = {
-    id: "test",
-    name: "Almoço mãe",
-    description: "asas",
-    type: "credit",
-    amount: 10000,
-    date: new Date(),
-    userId: "test",
-  };
+  if (transactions.length === 0) {
+    return (
+      <main className="w-full h-full flex flex-col items-center justify-center bg-white text-secondaryText rounded-md px-3 py-5">
+        Não há registros de entrada ou saída
+      </main>
+    );
+  }
 
-  const placeholderDebitTransaction: type = {
-    id: "test1",
-    name: "Almoço mãe",
-    description: "asas",
-    type: "debit",
-    amount: 10000,
-    date: new Date(),
-    userId: "test",
-  };
-
-  const placeholderTransactions = [
-    placeholderCreditTransaction,
-    placeholderDebitTransaction,
-  ];
-
-  const balance = placeholderTransactions
+  const balance = transactions
     .map((data) => {
       return { amount: data.amount, type: data.type };
     })
     .reduce((previous, current) => {
-      let amount = previous.amount + current.amount;
-      let type: "credit" | "debit" = "credit";
+      let previousAmount = Number(previous.amount);
+      let currentAmount = Number(current.amount);
+      let amount = previousAmount + currentAmount;
+      let type: "credit" | "debit" = previous.type;
       if (previous.type === "credit" && current.type === "debit") {
-        amount = previous.amount - current.amount;
+        amount = previousAmount - currentAmount;
       }
       if (previous.type === "debit" && current.type === "credit") {
-        amount = current.amount - previous.amount;
+        amount = currentAmount - previousAmount;
       }
       if (previous.type === "debit" && current.type === "debit") {
-        amount = 0 - current.amount - previous.amount;
+        amount = -currentAmount - previousAmount;
       }
       if (amount < 0) {
         type = "debit";
-        amount = Math.abs(amount);
       }
       return { type, amount };
     });
-
   const { type: balanceType } = balance;
   const balanceAmount = convertCentsToReal(balance.amount);
 
   return (
     <main className="w-full h-full flex flex-col gap-2 items-center bg-white text-secondaryText rounded-md px-3 py-5 relative">
-      {/* Não há registros de entrada ou saída */}
-      {placeholderTransactions.map((data) => {
+      {transactions?.map((data) => {
         return <Transaction key={data.id} transaction={data} />;
       })}
 
