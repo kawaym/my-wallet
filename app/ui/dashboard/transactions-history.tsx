@@ -1,5 +1,3 @@
-"use client";
-
 import { fetchTransactions } from "@/app/lib/data";
 import Transaction from "./transaction";
 import type { Transaction as type } from "@/app/lib/types";
@@ -7,18 +5,10 @@ import type { Transaction as type } from "@/app/lib/types";
 import { useEffect, useState } from "react";
 import { convertCentsToReal } from "@/app/lib/utils";
 
-export default function History() {
-  const [transactions, setTransactions] = useState<type[]>([]);
+export default async function History() {
+  const transactions = await fetchTransactions();
 
-  useEffect(() => {
-    async function fetch() {
-      const transactions = await fetchTransactions();
-      setTransactions(transactions);
-    }
-    fetch();
-  }, []);
-
-  if (transactions.length === 0 || transactions === undefined) {
+  if (transactions.length === 0) {
     return (
       <span className="my-auto">Não há registros de entrada ou saída</span>
     );
