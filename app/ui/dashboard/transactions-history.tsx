@@ -18,11 +18,9 @@ export default function History() {
     fetch();
   }, []);
 
-  if (transactions.length === 0) {
+  if (transactions.length === 0 || transactions === undefined) {
     return (
-      <main className="w-full h-full flex flex-col items-center justify-center bg-white text-secondaryText rounded-md px-3 py-5">
-        Não há registros de entrada ou saída
-      </main>
+      <span className="my-auto">Não há registros de entrada ou saída</span>
     );
   }
 
@@ -53,7 +51,7 @@ export default function History() {
   const balanceAmount = convertCentsToReal(balance.amount);
 
   return (
-    <main className="w-full h-full flex flex-col gap-2 items-center bg-white text-secondaryText rounded-md px-3 py-5 relative">
+    <>
       {transactions?.map((data) => {
         return <Transaction key={data.id} transaction={data} />;
       })}
@@ -66,6 +64,6 @@ export default function History() {
           {balanceAmount}
         </p>
       </div>
-    </main>
+    </>
   );
 }

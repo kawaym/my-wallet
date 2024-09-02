@@ -1,8 +1,10 @@
 import { signOut } from "@/auth";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { FiPlusCircle, FiMinusCircle } from "react-icons/fi";
+import { Suspense } from "react";
 
 import History from "../ui/dashboard/transactions-history";
+import Loading from "../ui/dashboard/history-loading";
 
 export default function Page() {
   return (
@@ -21,7 +23,11 @@ export default function Page() {
           </button>
         </form>
       </header>
-      <History />
+      <main className="w-full h-full flex flex-col items-center justify-start bg-white text-secondaryText rounded-md px-3 py-5 relative">
+        <Suspense fallback={<Loading />}>
+          <History />
+        </Suspense>
+      </main>
       <footer className="w-full h-1/6 flex justify-between gap-2">
         <button className="bg-buttonColor w-9/20 font-bold flex flex-col p-3 justify-between text-wrap rounded-md items-start">
           <FiPlusCircle className="text-2xl font-bold" />
