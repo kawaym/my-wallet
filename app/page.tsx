@@ -1,7 +1,11 @@
+import { SessionProvider } from "next-auth/react";
+
+import Login from "./login/page";
+
 export default function Home() {
   return (
-    <div className="flex flex-col justify-center items-center w-screen h-screen">
-      Em construção
-    </div>
+    <SessionProvider>
+      <Login />
+    </SessionProvider>
   );
 }

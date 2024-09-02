@@ -1,10 +1,13 @@
-import { signOut } from "@/auth";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { FiPlusCircle, FiMinusCircle } from "react-icons/fi";
 import { Suspense } from "react";
+import { useSession } from "next-auth/react";
 
+import { signOut } from "@/auth";
 import History from "../ui/dashboard/transactions-history";
 import Loading from "../ui/dashboard/history-loading";
+import auth from "@/middleware";
+import { redirect } from "next/navigation";
 
 export default function Page() {
   return (
@@ -12,11 +15,12 @@ export default function Page() {
       <header className="flex w-full justify-between">
         <p className="font-bold text-3xl">Olá, Fulano</p>
         <form
-        // action={async () => {
-        //   "use server";
+          action={async () => {
+            "use server";
 
-        //   await signOut();
-        // }}
+            await signOut();
+            redirect("/");
+          }}
         >
           <button className="font-bold text-3xl h-full">
             <RiLogoutBoxRLine />
