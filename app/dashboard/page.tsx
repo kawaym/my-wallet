@@ -9,11 +9,13 @@ import Loading from "../ui/dashboard/history-loading";
 import auth from "@/middleware";
 import { redirect } from "next/navigation";
 
-export default function Page() {
+export default async function Page() {
+  const session = await auth();
+  console.log(session);
   return (
     <div className="flex flex-col w-full h-full p-6 gap-4">
       <header className="flex w-full justify-between">
-        <p className="font-bold text-3xl">Olá, Fulano</p>
+        <p className="font-bold text-3xl">Olá, {session?.user?.name}</p>
         <form
           action={async () => {
             "use server";
@@ -29,7 +31,7 @@ export default function Page() {
       </header>
       <main className="w-full h-full flex flex-col items-center justify-start bg-white text-secondaryText rounded-md px-3 py-5 relative">
         <Suspense fallback={<Loading />}>
-          <History />
+          <History session={session} />
         </Suspense>
       </main>
       <footer className="w-full h-1/6 flex justify-between gap-2">

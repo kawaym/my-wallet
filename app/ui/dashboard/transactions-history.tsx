@@ -4,9 +4,14 @@ import type { Transaction as type } from "@/app/lib/types";
 
 import { useEffect, useState } from "react";
 import { convertCentsToReal } from "@/app/lib/utils";
+import { Session } from "next-auth";
 
-export default async function History() {
-  const transactions = await fetchTransactions();
+export default async function History({
+  session,
+}: {
+  session?: Session | null;
+}) {
+  const transactions = await fetchTransactions(session?.user?.email);
 
   if (transactions.length === 0) {
     return (
