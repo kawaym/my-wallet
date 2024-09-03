@@ -1,19 +1,29 @@
 "use server";
 
-import { signIn } from "@/auth";
+import { getUser, signIn } from "@/auth";
 import { AuthError } from "next-auth";
 import { z } from "zod";
 import { pool } from "../db/db";
 import bcrypt from "bcrypt";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import type { TransactionType } from "./types";
 
-export type State = {
+export type UserState = {
   errors?: {
     name?: string[];
     email?: string[];
     password?: string[];
     confirmPassword?: string[];
+  };
+  message?: string | null;
+};
+
+export type TransactionState = {
+  errors?: {
+    name?: string[];
+    description?: string[];
+    amount?: string[];
   };
   message?: string | null;
 };
@@ -27,9 +37,26 @@ const UserSchema = z.object({
   date: z.string(),
 });
 
+const TransactionSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  description: z.string().optional(),
+  type: z.enum(["debit", "credit"]),
+  amount: z.number().positive(),
+  date: z.string(),
+  userId: z.string(),
+});
+
 const CreateUser = UserSchema.omit({ id: true, date: true });
 
-export async function createUser(prevState: State, formData: FormData) {
+const CreateTransaction = TransactionSchema.omit({
+  id: true,
+  date: true,
+  userId: true,
+  type: true,
+});
+
+export async function createUser(prevState: UserState, formData: FormData) {
   const validatedFields = CreateUser.safeParse({
     name: formData.get("name"),
     email: formData.get("email"),
@@ -53,7 +80,7 @@ export async function createUser(prevState: State, formData: FormData) {
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
-  const date = new Date().toISOString().split("T")[0];
+  const date = new Date().toISOString().split("T")[0]; // TODO: extract this date
 
   try {
     await pool.query(`
@@ -68,6 +95,49 @@ export async function createUser(prevState: State, formData: FormData) {
 
   revalidatePath("/login");
   redirect("/login");
+}
+
+export async function createTransaction(
+  prevState: TransactionState,
+  formData: FormData
+) {
+  const type = "debit";
+  const userEmail = "user@nextmail.com";
+  const validatedFields = CreateTransaction.safeParse({
+    name: formData.get("name"),
+    description: formData.get("description"),
+    amount: formData.get("amount"),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: "Missing Fields. Failed to Create User.",
+    };
+  }
+
+  const { name, description, amount } = validatedFields.data;
+  const date = new Date().toISOString().split("T")[0];
+  const user = await getUser(userEmail);
+
+  if (!user || !user.id) {
+    return {
+      message: "Failed to find user.",
+    };
+  }
+  try {
+    await pool.query(`
+      INSERT INTO transactions (name, description, type, amount, date, userId)
+      VALUES ('${name}', '${description}', '${type}', '${amount}', '${date}', '${user.id}');
+    `);
+  } catch (e) {
+    return {
+      message: "Database Error: Failed to create user.",
+    };
+  }
+
+  revalidatePath("/dashboard");
+  redirect("/dashboard");
 }
 
 export async function authenticate(

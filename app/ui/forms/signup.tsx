@@ -6,10 +6,10 @@ import Submit from "../submit-button";
 import Auxiliary from "../auxiliary-button";
 import { createUser } from "@/app/lib/actions";
 import { useActionState } from "react";
-import { State } from "@/app/lib/actions";
+import { UserState } from "@/app/lib/actions";
 
 export default function Form() {
-  const initialState: State = { message: null, errors: {} };
+  const initialState: UserState = { message: null, errors: {} };
   const [state, formAction] = useActionState(createUser, initialState);
 
   return (

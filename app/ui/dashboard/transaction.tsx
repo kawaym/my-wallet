@@ -3,8 +3,10 @@ import { convertCentsToReal } from "@/app/lib/utils";
 
 export default function Transaction({
   transaction,
+  id,
 }: {
   transaction: Transaction;
+  id: string;
 }) {
   const fixedAmount = convertCentsToReal(transaction.amount);
 
@@ -14,7 +16,7 @@ export default function Transaction({
   });
 
   return (
-    <div className="flex w-full">
+    <div className="flex w-full" id={id}>
       <div className="mr-3">{fixedDate}</div>
       <div className="text-black">{transaction.name}</div>
       <div

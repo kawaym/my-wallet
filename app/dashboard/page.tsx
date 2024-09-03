@@ -11,7 +11,6 @@ import { redirect } from "next/navigation";
 
 export default async function Page() {
   const session = await auth();
-  console.log(session);
   return (
     <div className="flex flex-col w-full h-full p-6 gap-4">
       <header className="flex w-full justify-between">

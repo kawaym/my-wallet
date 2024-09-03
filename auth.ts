@@ -6,7 +6,7 @@ import { pool } from "./app/db/db";
 import type { User } from "./app/lib/types";
 import bcrypt from "bcrypt";
 
-async function getUser(email: string): Promise<User | undefined> {
+export async function getUser(email: string): Promise<User | undefined> {
   try {
     const user = await pool.query<User>(
       `SELECT * FROM users WHERE email = '${email}'`
@@ -18,7 +18,7 @@ async function getUser(email: string): Promise<User | undefined> {
   }
 }
 
-export const { signIn, signOut } = NextAuth({
+export const { auth, signIn, signOut } = NextAuth({
   ...authConfig,
   providers: [
     credentials({
@@ -32,7 +32,6 @@ export const { signIn, signOut } = NextAuth({
           const user = await getUser(email);
           if (!user) return null;
           const passwordsMatch = await bcrypt.compare(password, user.password);
-
           if (passwordsMatch) return user;
         }
         console.log("Invalid credentials.");

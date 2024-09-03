@@ -14,11 +14,13 @@ export type User = {
   password: string;
 };
 
+export type TransactionType = "credit" | "debit";
+
 export type Transaction = {
   id: string;
   name: string;
   description: string;
-  type: "credit" | "debit";
+  type: TransactionType;
   amount: number;
   date: Date;
   userId: string;

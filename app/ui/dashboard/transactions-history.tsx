@@ -48,7 +48,7 @@ export default async function History({
   return (
     <>
       {transactions?.map((data) => {
-        return <Transaction key={data.id} transaction={data} />;
+        return <Transaction key={data.id} transaction={data} id={data.id} />;
       })}
 
       <div className="flex justify-between w-full absolute bottom-5 px-3">

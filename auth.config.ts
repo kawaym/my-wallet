@@ -1,4 +1,5 @@
 import type { NextAuthConfig } from "next-auth";
+import { v4 as uuid } from "uuid";
 
 export const authConfig = {
   pages: {
