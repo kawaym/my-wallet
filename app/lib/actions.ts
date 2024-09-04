@@ -42,7 +42,7 @@ const TransactionSchema = z.object({
   name: z.string(),
   description: z.string().optional(),
   type: z.enum(["debit", "credit"]),
-  amount: z.number().positive(),
+  amount: z.string(),
   date: z.string(),
   userId: z.string(),
 });
@@ -101,6 +101,7 @@ export async function createTransaction(
   prevState: TransactionState,
   formData: FormData
 ) {
+  console.log(formData);
   const type = "debit";
   const userEmail = "user@nextmail.com";
   const validatedFields = CreateTransaction.safeParse({
@@ -110,6 +111,7 @@ export async function createTransaction(
   });
 
   if (!validatedFields.success) {
+    console.log(validatedFields.error);
     return {
       errors: validatedFields.error.flatten().fieldErrors,
       message: "Missing Fields. Failed to Create User.",
@@ -120,6 +122,8 @@ export async function createTransaction(
   const date = new Date().toISOString().split("T")[0];
   const user = await getUser(userEmail);
 
+  const fixedAmount = Number(amount.toString() + "00");
+
   if (!user || !user.id) {
     return {
       message: "Failed to find user.",
@@ -128,7 +132,7 @@ export async function createTransaction(
   try {
     await pool.query(`
       INSERT INTO transactions (name, description, type, amount, date, userId)
-      VALUES ('${name}', '${description}', '${type}', '${amount}', '${date}', '${user.id}');
+      VALUES ('${name}', '${description}', '${type}', '${fixedAmount}', '${date}', '${user.id}');
     `);
   } catch (e) {
     return {
